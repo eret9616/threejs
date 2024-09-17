@@ -1,16 +1,17 @@
-import { useEffect } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
-import * as dat from 'dat.gui'
+import { useEffect } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { DragControls } from "three/examples/jsm/controls/DragControls";
+import * as dat from "dat.gui";
 
+// https://3dbooks.netlify.app/categories/threejs/basis/3
 
 const Page = () => {
   useEffect(() => {
     const $ = {
-      cameraIndex:0,
+      cameraIndex: 0,
       createScene() {
-        const canvas = document.getElementById('c');
+        const canvas = document.getElementById("c");
         const width = window.innerWidth;
         const height = window.innerHeight;
         canvas.width = width;
@@ -31,50 +32,54 @@ const Page = () => {
       },
       createObjects() {
         const plane = new THREE.PlaneGeometry();
-        const material = new THREE.PointsMaterial( {
-          color: 0x1890ff ,
-          side:THREE.DoubleSide
-        } );
-        const mesh = new THREE.Mesh( plane, material );
-        mesh.rotation.x = -Math.PI / 2
-        mesh.position.y = -0.5
-        mesh.scale.x = 2
+        const material = new THREE.PointsMaterial({
+          color: 0x1890ff,
+          side: THREE.DoubleSide,
+        });
+        const mesh = new THREE.Mesh(plane, material);
+        mesh.rotation.x = -Math.PI / 2;
+        mesh.position.y = -0.5;
+        mesh.scale.x = 2;
 
-        const boxGeometry = new THREE.BoxGeometry(1,1,1)
-        const box = new THREE.Mesh(boxGeometry,material)
-        box.position.x = -2
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const box = new THREE.Mesh(boxGeometry, material);
+        box.position.x = -2;
 
-        const coneGeometry   = new THREE.ConeGeometry(1,2,32)
-        const cone = new THREE.Mesh(coneGeometry,material)
-        cone.position.x = 2
+        const coneGeometry = new THREE.ConeGeometry(1, 2, 32);
+        const cone = new THREE.Mesh(coneGeometry, material);
+        cone.position.x = 2;
 
-        const cylinderGeometry = new THREE.CylinderGeometry(1,1,2,32,32)
-        const cylinder = new THREE.Mesh(cylinderGeometry,material)
-        cylinder.position.x = 4
+        const cylinderGeometry = new THREE.CylinderGeometry(1, 1, 2, 32, 32);
+        const cylinder = new THREE.Mesh(cylinderGeometry, material);
+        cylinder.position.x = 4;
 
-        this.scene.add(mesh,box,cone,cylinder)
+        this.scene.add(mesh, box, cone, cylinder);
       },
       createCamera() {
         // 创建相机对象
-        const pCamera = new THREE.PerspectiveCamera(75,this.width/this.height,1,100)
+        const pCamera = new THREE.PerspectiveCamera(
+          75,
+          this.width / this.height,
+          1,
+          100
+        );
 
-        pCamera.position.set(0,1,5)
-        pCamera.lookAt(this.scene.position)
-        this.scene.add(pCamera)
+        pCamera.position.set(0, 1, 5);
+        pCamera.lookAt(this.scene.position);
+        this.scene.add(pCamera);
         this.pCamera = pCamera;
-        this.camera = pCamera
+        this.camera = pCamera;
       },
-      datGui(){
+      datGui() {
         const gui = new dat.GUI();
-        gui.add(this.orbitControls,'enabled')
-        gui.add(this.orbitControls,'dampingFactor',0.01,0.2,0.01) // 阻尼系数
-        gui.add(this.orbitControls,'enablePan') // 启用/禁用相机评议
-        gui.add(this.orbitControls,'panSpeed',1,10,1) // 相机平移的速度
-        gui.add(this.orbitControls,'autoRotate') // 自动旋转
-        gui.add(this.orbitControls,'autoRotateSpeed',1,10,1) // 自动旋转速度
-        gui.add(this.orbitControls,'enableZoom')
-        gui.add(this.orbitControls,'zoomSpeed',1,10,1)
-
+        gui.add(this.orbitControls, "enabled");
+        gui.add(this.orbitControls, "dampingFactor", 0.01, 0.2, 0.01); // 阻尼系数
+        gui.add(this.orbitControls, "enablePan"); // 启用/禁用相机评议
+        gui.add(this.orbitControls, "panSpeed", 1, 10, 1); // 相机平移的速度
+        gui.add(this.orbitControls, "autoRotate"); // 自动旋转
+        gui.add(this.orbitControls, "autoRotateSpeed", 1, 10, 1); // 自动旋转速度
+        gui.add(this.orbitControls, "enableZoom");
+        gui.add(this.orbitControls, "zoomSpeed", 1, 10, 1);
       },
       helpers() {
         // 创建辅助坐标系
@@ -82,8 +87,8 @@ const Page = () => {
         // 创建辅助平面
         this.scene.add(axesHelper);
       },
-      clipScene(renderer){
-        const dpr = window.devicePixelRatio || 1
+      clipScene(renderer) {
+        const dpr = window.devicePixelRatio || 1;
         // 设置渲染器屏幕像素比
         renderer.setPixelRatio(dpr);
         // 设置渲染器大小
@@ -93,16 +98,14 @@ const Page = () => {
       },
       render() {
         // 创建渲染器
-        if(!this.renderer){
+        if (!this.renderer) {
           this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
           });
-
         }
         // 全局剪裁
-        this.clipScene(this.renderer)
-
+        this.clipScene(this.renderer);
       },
       controls() {
         // 创建轨道控制器
@@ -122,17 +125,17 @@ const Page = () => {
         //   orbitControls.enabled = true
         // })
       },
-      count:0, // 当前点的索引
-      moveCamera(){
-          const index = this.count % this.points.length; //
-          const point = this.points[index]
-          const nextPoint = this.points[index+1 >= this.points.length? 0 : index+1]
+      count: 0, // 当前点的索引
+      moveCamera() {
+        const index = this.count % this.points.length; //
+        const point = this.points[index];
+        const nextPoint =
+          this.points[index + 1 >= this.points.length ? 0 : index + 1];
 
-
-          this.pCamera.position.set(point.x,0,-point.y)
-          this.pCamera.lookAt(nextPoint.x,0,-nextPoint.y) // 让人眼视角沿着路径观察
-          this.sphereMesh.position.set(point.x,0,-point.y)
-          this.count++
+        this.pCamera.position.set(point.x, 0, -point.y);
+        this.pCamera.lookAt(nextPoint.x, 0, -nextPoint.y); // 让人眼视角沿着路径观察
+        this.sphereMesh.position.set(point.x, 0, -point.y);
+        this.count++;
       },
       tick() {
         // this.mesh.rotation.y += 0.01;
@@ -140,33 +143,32 @@ const Page = () => {
         this.orbitControls.update();
         // this.moveCamera()
 
-        this.render()
+        this.render();
         // this.renderer.render(this.scene, this.camera);
         window.requestAnimationFrame(() => this.tick());
       },
       fitView() {
-        window.addEventListener('resize', () => {
+        window.addEventListener("resize", () => {
           camera.aspect = window.innerWidth / window.innerHeight;
           camera.updateProjectionMatrix();
           renderer.setSize(window.innerWidth, window.innerHeight);
         });
       },
-      init(){
-        this.createScene()
-        this.createLights()
-        this.createObjects()
-        this.createCamera()
-        this.helpers()
-        this.render()
-        this.controls()
-        this.tick()
-        this.fitView()
+      init() {
+        this.createScene();
+        this.createLights();
+        this.createObjects();
+        this.createCamera();
+        this.helpers();
+        this.render();
+        this.controls();
+        this.tick();
+        this.fitView();
         // this.datGui()
-      }
+      },
     };
-    $.init()
+    $.init();
   }, []);
-
 
   return (
     <>
@@ -176,4 +178,3 @@ const Page = () => {
 };
 
 export default Page;
-
