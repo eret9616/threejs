@@ -70,7 +70,7 @@ const Page = () => {
         this.camera = pCamera;
 
         // 创建缩略图相机
-        const thumbnailCamera = new THREE.OrthographicCamera(
+        const thumbnailCamera = new THREE.Orthog1raphicCamera(
           (-150 / 200) * frustumSize,
           (150 / 200) * frustumSize,
           frustumSize,
