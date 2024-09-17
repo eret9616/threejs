@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import * as dat from 'dat.gui'
+import { useEffect } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as dat from "dat.gui";
 
 const Page = () => {
   useEffect(() => {
     const $ = {
       createScene() {
-        const canvas = document.getElementById('c');
+        const canvas = document.getElementById("c");
         const width = window.innerWidth;
         const height = window.innerHeight;
         canvas.width = width;
@@ -26,7 +26,7 @@ const Page = () => {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
         this.scene.add(ambientLight, directionalLight);
       },
-      loadTextures(){
+      loadTextures() {
         debugger;
         // const img = new Image()
         // const texture = new THREE.Texture(img)
@@ -34,7 +34,6 @@ const Page = () => {
         // img.onload = function(){
         //   texture.needsUpdate = true
         // }
-
 
         // const textLoader = new THREE.TextureLoader()
         // this.texture = textLoader.setCrossOrigin('anonymous').load('/src/assets/textures/Wood_Ceiling_Coffers_003/Wood_Ceiling_Coffers_003_basecolor.jpg',
@@ -48,26 +47,44 @@ const Page = () => {
         // )
 
         const manager = new THREE.LoadingManager();
-        manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
-          console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+        manager.onStart = function (url, itemsLoaded, itemsTotal) {
+          console.log(
+            "Started loading file: " +
+              url +
+              ".\nLoaded " +
+              itemsLoaded +
+              " of " +
+              itemsTotal +
+              " files."
+          );
         };
-        manager.onLoad = function ( ) {
-          console.log( 'Loading complete!');
+        manager.onLoad = function () {
+          console.log("Loading complete!");
         };
-        manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-          console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+        manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+          console.log(
+            "Loading file: " +
+              url +
+              ".\nLoaded " +
+              itemsLoaded +
+              " of " +
+              itemsTotal +
+              " files."
+          );
         };
-        manager.onError = function ( url ) {
-          console.log( 'There was an error loading ' + url );
+        manager.onError = function (url) {
+          console.log("There was an error loading " + url);
         };
-        const textureLoader = new THREE.TextureLoader(manager)
-        const texture =  textureLoader.load('/src/assets/textures/Wood_Ceiling_Coffers_003/Wood_Ceiling_Coffers_003_basecolor.jpg')
+        const textureLoader = new THREE.TextureLoader(manager);
+        const texture = textureLoader.load(
+          "/src/assets/textures/Wood_Ceiling_Coffers_003/Wood_Ceiling_Coffers_003_basecolor.jpg"
+        );
 
-        textureLoader.load('/src/assets/textures/Wood_Ceiling_Coffers_003/Wood_Ceiling_Coffers_003_ambientOcclusion.jpg')
+        textureLoader.load(
+          "/src/assets/textures/Wood_Ceiling_Coffers_003/Wood_Ceiling_Coffers_003_ambientOcclusion.jpg"
+        );
 
-        this.texture = texture
-
-
+        this.texture = texture;
       },
       createObjects() {
         // 2 创建立方体的几何体
@@ -76,7 +93,7 @@ const Page = () => {
         // 3 创建立方体的基础材质
         const material = new THREE.MeshLambertMaterial({
           // color: 0x1890ff,
-          map:this.texture
+          map: this.texture,
         });
         // 4 创建3d物体对象
         const mesh = new THREE.Mesh(geometry, material);
@@ -85,9 +102,15 @@ const Page = () => {
       },
       createCamera() {
         // 创建相机对象
-        const size = 4
+        const size = 4;
         const orthoCamera = new THREE.OrthographicCamera(
-          -size, size, size/2, -size/2,0.1, 3); // 画布的宽高比
+          -size,
+          size,
+          size / 2,
+          -size / 2,
+          0.1,
+          3
+        ); // 画布的宽高比
         // 设置相机位置
         orthoCamera.position.set(2, 2, 3); // x轴2 y轴2 z轴34
         // 设置相机朝向
@@ -96,38 +119,37 @@ const Page = () => {
         this.scene.add(orthoCamera);
         this.orthoCamera = orthoCamera;
 
-
         // 创建第二个相机
         const watcherCamera = new THREE.PerspectiveCamera(
-          75,this.width/this.height,0.1,10
-        )
-        watcherCamera.position.set(2,2,6)
-        watcherCamera.lookAt(this.scene.position)
-        this.scene.add(watcherCamera)
+          75,
+          this.width / this.height,
+          0.1,
+          10
+        );
+        watcherCamera.position.set(2, 2, 6);
+        watcherCamera.lookAt(this.scene.position);
+        this.scene.add(watcherCamera);
         this.camera = watcherCamera;
-
       },
-      datGui(){
+      datGui() {
         const gui = new dat.GUI();
-        gui.add(this.camera.position,'x',0.1,10,0.1)
-        gui.add(this.camera,'near',0.01,10,0.01).onChange(val=>{
+        gui.add(this.camera.position, "x", 0.1, 10, 0.1);
+        gui.add(this.camera, "near", 0.01, 10, 0.01).onChange((val) => {
           console.log(val);
-          this.camera.near = val
-          this.camera.updateProjectionMatrix()
-        })
-        gui.add(this.camera,'far',1,100,1).onChange(val=>{
+          this.camera.near = val;
+          this.camera.updateProjectionMatrix();
+        });
+        gui.add(this.camera, "far", 1, 100, 1).onChange((val) => {
           console.log(val);
-          this.camera.far = val
-          this.camera.updateProjectionMatrix()
-        })
+          this.camera.far = val;
+          this.camera.updateProjectionMatrix();
+        });
 
-        gui.add(this.camera,'zoom',0.1,10,0.1).onChange(val=>{
+        gui.add(this.camera, "zoom", 0.1, 10, 0.1).onChange((val) => {
           console.log(val);
-          this.camera.zoom = val
-          this.camera.updateProjectionMatrix()
-        })
-
-
+          this.camera.zoom = val;
+          this.camera.updateProjectionMatrix();
+        });
       },
       helpers() {
         // 创建辅助坐标系
@@ -162,29 +184,28 @@ const Page = () => {
         window.requestAnimationFrame(() => this.tick());
       },
       fitView() {
-        window.addEventListener('resize', () => {
+        window.addEventListener("resize", () => {
           camera.aspect = window.innerWidth / window.innerHeight;
           camera.updateProjectionMatrix();
           renderer.setSize(window.innerWidth, window.innerHeight);
         });
       },
-      init(){
-        this.createScene()
-        this.createLights()
-        this.loadTextures()
-        this.createObjects()
-        this.createCamera()
-        this.helpers()
-        this.render()
-        this.controls()
-        this.tick()
-        this.fitView()
-        this.datGui()
-      }
+      init() {
+        this.createScene();
+        this.createLights();
+        this.loadTextures();
+        this.createObjects();
+        this.createCamera();
+        this.helpers();
+        this.render();
+        this.controls();
+        this.tick();
+        this.fitView();
+        this.datGui();
+      },
     };
-    $.init()
+    $.init();
   }, []);
-
 
   return (
     <>
