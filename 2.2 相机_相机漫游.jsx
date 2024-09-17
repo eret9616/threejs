@@ -9,6 +9,13 @@ import { HeartCurve } from "three/examples/jsm/curves/CurveExtras";
     2. 曲线的分解,给取现分成n个段
 */
 
+/*
+    总结：
+    1. 曲线的拆解
+    2. 给曲线分了n个段
+    3. lookat的妙用，代码中用了camerahelper来显示小球的视椎体
+
+*/
 const Page = () => {
   useEffect(() => {
     const $ = {
