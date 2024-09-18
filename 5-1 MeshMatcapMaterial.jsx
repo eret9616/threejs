@@ -23,6 +23,10 @@ Phong网格材质 MeshPhongMaterial 用于具有镜面高光的光泽表面的�
 /*
 
 Matcap（Material Capture）材质是一种用于3D渲染和建模的特殊着色技术，主要应用于实时预览、雕刻和快速材质表现中。它的独特之处在于，它利用预先生成的纹理来直接映射物体表面的光照和材质效果，而不需要进行复杂的实时光照计算。以下是对Matcap材质的详细介绍：
+material captures
+MatCaps, or "material captures" allows you to create a surface material and lighting environment simply by painting an object so that it looks like how you want your surface to appear.
+https://learn.foundry.com/modo/content/help/pages/shading_lighting/shader_items/matcap.html
+
 
 ### 1. **工作原理**
 Matcap材质通过使用一张包含光照和材质信息的球形纹理（Matcap纹理），将这个纹理映射到3D模型的表面。模型表面的法线方向决定了如何采样这张纹理，从而为每个表面点提供颜色、亮度和反射效果。因此，Matcap纹理包含了环境的光照效果以及材质属性（如金属感、光泽感等）。
