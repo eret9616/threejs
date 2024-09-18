@@ -227,7 +227,7 @@ const Page = () => {
       },
       createObjects() {
         const material = new THREE.MeshNormalMaterial({
-          color: 0x1890ff,
+          color: 0xfff, // 这里color没用
           transparent: true,
           side: THREE.DoubleSide,
         });
