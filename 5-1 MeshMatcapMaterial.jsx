@@ -5,6 +5,23 @@ import * as dat from "dat.gui";
 
 /*
 
+基础线条材质 LineBasicMaterial
+虚线材质 LineDashedMaterial
+基础网格材质 MeshBasicMaterial 以简单着色（平面或线框）方式来绘制几何体的材质。这种材质不受光照的影响。
+深度网格材质 MeshDepthMaterial 按深度绘制几何体的材质。深度基于相机远近平面。白色最近，黑色最远。
+Lambert网格材质 MeshLambertMaterial 非光泽表面的材质，没有镜面高光。可以很好地模拟某些表面（例如未经处理的木材或石材），但不能模拟具有镜面高光的光泽表面（例如涂漆木材）
+法线网格材质 MeshNormalMaterial 把法向量映射到RGB颜色的材质。
+Phong网格材质 MeshPhongMaterial 用于具有镜面高光的光泽表面的材质。
+标准网格材质 MeshStandardMaterial 基于物理(PBR)的标准材质, 使用物理上正确的模型来表示光与表面的相互作用
+物理网格材质 MeshPhysicalMaterial 基于物理(PBR)的透明度, 高级光线反射
+卡通网格材质 MeshToonMaterial 模拟卡通效果的材质
+着色器材质 ShaderMaterial 使用自定义shader渲染的材质
+阴影材质 ShadowMaterial 可以接收阴影，但在其他方面完全透明。
+
+*/
+
+/*
+
 Matcap（Material Capture）材质是一种用于3D渲染和建模的特殊着色技术，主要应用于实时预览、雕刻和快速材质表现中。它的独特之处在于，它利用预先生成的纹理来直接映射物体表面的光照和材质效果，而不需要进行复杂的实时光照计算。以下是对Matcap材质的详细介绍：
 
 ### 1. **工作原理**
