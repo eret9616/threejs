@@ -189,6 +189,7 @@ const Page = () => {
     };
     $.init();
   }, []);
+  c;
 
   return (
     <>
